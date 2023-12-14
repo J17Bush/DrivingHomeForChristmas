@@ -12,7 +12,7 @@ lives = 1
 
 
 white = (255, 255, 255)
-
+cred = (255,0,0)
 
 black = (0, 0, 0)
 transparent = (0, 0, 0, 0)
@@ -112,12 +112,10 @@ def redrawGameWindow():
     screen.blit(bg, (0,0))
     screen.blit(char, (x,y))
     all_sprites_list.draw(screen)
-    for ball in balls:
-        ball.draw(screen)
 
     pygame.display.update()
 
-ball = Ball(white, 10, 10, present)
+ball = Ball(cred, 10, 10, present)
 ball.rect.x = 350
 ball.rect.y = 560
 
@@ -181,40 +179,18 @@ while running:
         elif event.type == QUIT:
             running = False
         
-        for ball in balls:
-            if ball.rect.x < 500 and ball.rect.x > 0:
-                ball.rect.x += ball.vel
-            #  
 
     pressed_keys = pygame.key.get_pressed()
 
-    if pressed_keys[pygame.K_SPACE] and balls == []:
-        balls.append(Ball('red', 5, 5, present=present))
-    else:
-        print("Balls full")
-
-
-    if ball.rect.x >= 1570:
-
 
     if ball.rect.x >= 1770:
-
-    if ball.rect.x <= 1570:
-
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.x >= 0:
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.y >= 0:
         ball.velocity[0] = -ball.velocity[0]
-
     if ball.rect.y >= 1080:
-
-
-    if ball.rect.y > 1080:
-
-    if ball.rect.y >= 1080:
-
-        ball.velocity[1] = -ball.velocity[1]
+       ball.velocity[1] = -ball.velocity[1]
 
     if pressed_keys[pygame.K_LEFT] and x > vel:
         x -= vel
