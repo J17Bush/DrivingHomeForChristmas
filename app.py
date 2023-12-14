@@ -6,7 +6,9 @@ y = 900
 width = 400
 height = 600 
 vel = 150
+lives = 1
 
+cred = (255, 0, 0)
 white = (255, 255, 255)
 black = (0, 0, 0)
 transparent = (0, 0, 0, 0)
@@ -38,15 +40,14 @@ class Ball(pygame.sprite.Sprite):
     def __init__(self, colour, width, height, present):
         super().__init__()
 
-        self.image = pygame.Surface([width, height])
-        self.image.fill(black)
+        self.present = present
+        self.image = self.present
+        self.image = pygame.transform.scale(self.image, [width, height])
         self.image.set_colorkey(black)
-
-        self.color = colour
 
         pygame.draw.rect(self.image, colour, [0, 0, width, height])
 
-        self.velocity = [randint(4,8), randint(-8, 8)]
+        self.velocity = [randint(16,32), randint(-32, 32)]
         
         self.rect = self.image.get_rect()
 
@@ -60,8 +61,7 @@ class Ball(pygame.sprite.Sprite):
         self.velocity[0] = -self.velocity[0]
         self.velocity[1] = randint(-8, 8)
     
-    def draw(self,screen):
-        pygame.draw.circle(screen, self.color, (self.rect.x,self.rect.y), self.radius)
+   
 
 bg = pygame.image.load('static/RoundBackground.png')
 char = pygame.image.load('static/PlayerCar.png')
@@ -90,30 +90,17 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption("placeholder")
 
-class projectile(object):
-    def __init__(self,x,y,radius,color):
-        self.x = x
-        self.y = y
-        self.radius = radius
-        self.color = color
-        self.vel = 8
-
-    def draw(self,screen):
-        pygame.draw.circle(screen, self.color, (self.x,self.y), self.radius)
-
-
 def redrawGameWindow():
     screen.blit(bg, (0,0))
     screen.blit(char, (x,y))
     all_sprites_list.draw(screen)
-    for ball in balls:
-        ball.draw(screen)
 
     pygame.display.update()
 
-ball = Ball(white, 10, 10, present)
+ball = Ball(cred, 10, 10, present)
 ball.rect.x = 350
 ball.rect.y = 560
+all_sprites_list.add(ball)
 
 balls = []
 
@@ -174,27 +161,29 @@ while running:
         
         elif event.type == QUIT:
             running = False
-        
-        for ball in balls:
-            if ball.rect.x < 500 and ball.rect.x > 0:
-                ball.rect.x += ball.vel
-            #  
+            
+    all_sprites_list.update()
 
     pressed_keys = pygame.key.get_pressed()
 
-    if pressed_keys[pygame.K_SPACE] and balls == []:
-        balls.append(Ball('red', 5, 5, present=present))
-    else:
-        print("Balls full")
 
-    if ball.rect.x >= 1570:
+
+    if ball.rect.x >= 1770:
         ball.velocity[0] = -ball.velocity[0]
-    if ball.rect.x >= 0:
+    if ball.rect.x >= 175:
         ball.velocity[0] = -ball.velocity[0]
-    if ball.rect.y >= 0:
+    if ball.rect.y > 0:
         ball.velocity[0] = -ball.velocity[0]
-    if ball.rect.y >= 1000:
+    if ball.rect.y > 1080:
         ball.velocity[1] = -ball.velocity[1]
+        lives -= 1
+        if lives == 0:
+            font = pygame.font.Font(None, 74)
+            text = font.render("GAME OVER", 1, cred)
+            screen.blit(text, (250, 300))
+            pygame.display.flip()
+            #quit()
+
 
     if pressed_keys[pygame.K_LEFT] and x > vel:
         x -= vel
