@@ -71,59 +71,62 @@ class projectile(object):
 def redrawGameWindow():
     screen.blit(bg, (0,0))
     screen.blit(char, (x,y))
+    all_sprites_list.draw(screen)
     for ball in balls:
         ball.draw(screen)
 
-    all_bricks = pygame.sprite.Group()
-    for i in range(14):
-        brick = Brick(transparent, 100, 60, red)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 60
-        all_sprites_list.add(brick)
-        all_bricks.add(brick)
-    for i in range(14):
-        brick = Brick(transparent, 100, 60, darkorange)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 100
-        all_sprites_list.add(brick)
-        all_bricks.add(brick)
-    for i in range(14):
-        brick = Brick(transparent, 100, 60, orange)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 140
-        all_sprites_list.add(brick)
-        all_bricks.add(brick)
-    for i in range(14):
-        brick = Brick(transparent, 100, 60, yellow)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 180
-        all_sprites_list.add(brick)
-        all_bricks.add(brick)
-    for i in range(14):
-        brick = Brick(transparent, 100, 60, green)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 220
-        all_sprites_list.add(brick)
-        all_bricks.add(brick)
-    for i in range(14):
-        brick = Brick(transparent, 100, 60, blue)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 260
-        all_sprites_list.add(brick)
-        all_bricks.add(brick)
-    
-    all_sprites_list.draw(screen)
     pygame.display.update()
 
 balls = []
 
 running = True 
 
+all_bricks = pygame.sprite.Group()
+for i in range(14):
+        brick = Brick(transparent, 100, 60, red)
+        brick.rect.x = 80 + i* 100
+        brick.rect.y = 60
+        all_sprites_list.add(brick)
+        all_bricks.add(brick)
+for i in range(14):
+        brick = Brick(transparent, 100, 60, darkorange)
+        brick.rect.x = 80 + i* 100
+        brick.rect.y = 100
+        all_sprites_list.add(brick)
+        all_bricks.add(brick)
+for i in range(14):
+        brick = Brick(transparent, 100, 60, orange)
+        brick.rect.x = 80 + i* 100
+        brick.rect.y = 140
+        all_sprites_list.add(brick)
+        all_bricks.add(brick)
+for i in range(14):
+        brick = Brick(transparent, 100, 60, yellow)
+        brick.rect.x = 80 + i* 100
+        brick.rect.y = 180
+        all_sprites_list.add(brick)
+        all_bricks.add(brick)
+for i in range(14):
+        brick = Brick(transparent, 100, 60, green)
+        brick.rect.x = 80 + i* 100
+        brick.rect.y = 220
+        all_sprites_list.add(brick)
+        all_bricks.add(brick)
+for i in range(14):
+        brick = Brick(transparent, 100, 60, blue)
+        brick.rect.x = 80 + i* 100
+        brick.rect.y = 260
+        all_sprites_list.add(brick)
+        all_bricks.add(brick)
+
+screen.blit(bg, (0,0))
+
 while running:
 
     FPS = 60
 
     pygame.time.delay(100)
+
     screen.blit(char, (0,0))
     for event in pygame.event.get():
         if event.type == KEYDOWN:
@@ -156,9 +159,6 @@ while running:
         left = False
         right = True 
 
-    if pressed_keys[pygame.K_SPACE]:
-        if len(balls) < 5:
-            balls.append(projectile(round(x + width //2), round(y + height //2), 6, (0,0,0)))
 
 
 
