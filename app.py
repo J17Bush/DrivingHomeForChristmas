@@ -167,14 +167,22 @@ while running:
     pressed_keys = pygame.key.get_pressed()
 
 
+<<<<<<< Updated upstream
 
     if ball.rect.x >= 1770:
+=======
+    if ball.rect.x <= 1570:
+>>>>>>> Stashed changes
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.x >= 175:
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.y > 0:
         ball.velocity[0] = -ball.velocity[0]
+<<<<<<< Updated upstream
     if ball.rect.y > 1080:
+=======
+    if ball.rect.y >= 1080:
+>>>>>>> Stashed changes
         ball.velocity[1] = -ball.velocity[1]
         lives -= 1
         if lives == 0:
