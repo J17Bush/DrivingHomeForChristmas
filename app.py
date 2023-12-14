@@ -5,7 +5,7 @@ y = 900
 width = 400
 height = 600 
 vel = 150
-
+ 
 black = (0, 0, 0)
 transparent = (0, 0, 0, 0)
 
@@ -154,13 +154,10 @@ while running:
         left = True
         right = False
     
-    if pressed_keys[pygame.K_RIGHT] and x < 1920 - vel - width:
+    if pressed_keys[pygame.K_RIGHT] and x < 1920 - vel - 200:
         x += vel
         left = False
         right = True 
 
 
-
-
     redrawGameWindow()
-
