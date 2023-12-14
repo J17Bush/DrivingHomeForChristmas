@@ -1,4 +1,5 @@
 import pygame
+from random import randint
 
 x = 900
 y = 900
@@ -6,6 +7,7 @@ width = 400
 height = 600 
 vel = 150
 
+white = (255, 255, 255)
 black = (0, 0, 0)
 transparent = (0, 0, 0, 0)
 
@@ -15,6 +17,8 @@ darkorange = pygame.image.load('static/CarBlockDarkOrange.png')
 orange = pygame.image.load('static/CarBlockOrange.png')
 red = pygame.image.load('static/CarBlockRed.png')
 yellow = pygame.image.load('static/CarBlockYellow.png')
+
+present = pygame.image.load('static/Pressie1.png')
 
 all_sprites_list = pygame.sprite.Group()
 
@@ -28,6 +32,36 @@ class Brick(pygame.sprite.Sprite):
         self.image.set_colorkey(black)
 
         self.rect = self.image.get_rect()
+
+class Ball(pygame.sprite.Sprite):
+
+    def __init__(self, colour, width, height, present):
+        super().__init__()
+
+        self.image = pygame.Surface([width, height])
+        self.image.fill(black)
+        self.image.set_colorkey(black)
+
+        self.color = colour
+
+        pygame.draw.rect(self.image, colour, [0, 0, width, height])
+
+        self.velocity = [randint(4,8), randint(-8, 8)]
+        
+        self.rect = self.image.get_rect()
+
+        self.radius = 5
+
+    def update(self):
+        self.rect.x += self.velocity[0]
+        self.rect.y += self.velocity[1]
+
+    def bounce(self):
+        self.velocity[0] = -self.velocity[0]
+        self.velocity[1] = randint(-8, 8)
+    
+    def draw(self,screen):
+        pygame.draw.circle(screen, self.color, (self.rect.x,self.rect.y), self.radius)
 
 bg = pygame.image.load('static/RoundBackground.png')
 char = pygame.image.load('static/PlayerCar.png')
@@ -77,45 +111,49 @@ def redrawGameWindow():
 
     pygame.display.update()
 
+ball = Ball(white, 10, 10, present)
+ball.rect.x = 350
+ball.rect.y = 560
+
 balls = []
 
 running = True 
 
 all_bricks = pygame.sprite.Group()
 for i in range(14):
-        brick = Brick(transparent, 100, 60, red)
-        brick.rect.x = 80 + i* 100
+        brick = Brick(transparent, 120, 100, red)
+        brick.rect.x = 120 + i* 120
         brick.rect.y = 60
         all_sprites_list.add(brick)
         all_bricks.add(brick)
 for i in range(14):
-        brick = Brick(transparent, 100, 60, darkorange)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 100
+        brick = Brick(transparent, 120, 100, darkorange)
+        brick.rect.x = 120 + i* 120
+        brick.rect.y = 120
         all_sprites_list.add(brick)
         all_bricks.add(brick)
 for i in range(14):
-        brick = Brick(transparent, 100, 60, orange)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 140
+        brick = Brick(transparent, 120, 100, orange)
+        brick.rect.x = 120 + i* 120
+        brick.rect.y = 170
         all_sprites_list.add(brick)
         all_bricks.add(brick)
 for i in range(14):
-        brick = Brick(transparent, 100, 60, yellow)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 180
+        brick = Brick(transparent, 120, 100, yellow)
+        brick.rect.x = 120 + i* 120
+        brick.rect.y = 230
         all_sprites_list.add(brick)
         all_bricks.add(brick)
 for i in range(14):
-        brick = Brick(transparent, 100, 60, green)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 220
+        brick = Brick(transparent, 120, 100, green)
+        brick.rect.x = 120 + i* 120
+        brick.rect.y = 285
         all_sprites_list.add(brick)
         all_bricks.add(brick)
 for i in range(14):
-        brick = Brick(transparent, 100, 60, blue)
-        brick.rect.x = 80 + i* 100
-        brick.rect.y = 260
+        brick = Brick(transparent, 120, 100, blue)
+        brick.rect.x = 120 + i* 120
+        brick.rect.y = 345
         all_sprites_list.add(brick)
         all_bricks.add(brick)
 
@@ -138,28 +176,37 @@ while running:
             running = False
         
         for ball in balls:
-            if ball.x < 500 and ball.x > 0:
-                ball.x += ball.vel
-            else:
-                balls.pop(balls.index(ball))
+            if ball.rect.x < 500 and ball.rect.x > 0:
+                ball.rect.x += ball.vel
+            #  
 
     pressed_keys = pygame.key.get_pressed()
 
-    if pressed_keys[pygame.K_SPACE]:
-        if len(balls) < 5:
-            balls.append(projectile(round(x + width //2), round(y + height //2), 6, (0,0,0)))
+    if pressed_keys[pygame.K_SPACE] and balls == []:
+        balls.append(Ball('red', 5, 5, present=present))
+    else:
+        print("Balls full")
+
+    if ball.rect.x >= 1570:
+        ball.velocity[0] = -ball.velocity[0]
+    if ball.rect.x >= 0:
+        ball.velocity[0] = -ball.velocity[0]
+    if ball.rect.y >= 0:
+        ball.velocity[0] = -ball.velocity[0]
+    if ball.rect.y >= 1000:
+        ball.velocity[1] = -ball.velocity[1]
 
     if pressed_keys[pygame.K_LEFT] and x > vel:
         x -= vel
         left = True
         right = False
     
-    if pressed_keys[pygame.K_RIGHT] and x < 1920 - vel - width:
+    if pressed_keys[pygame.K_RIGHT] and x < 1920 - vel - 200:
         x += vel
         left = False
         right = True 
 
-
+    print(balls)
 
 
     redrawGameWindow()
