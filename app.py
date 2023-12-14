@@ -10,6 +10,8 @@ vel = 150
 bg = pygame.image.load('static/RoundBackground.png')
 char = pygame.image.load('static/PlayerCar.png')
 
+char_size = (150, 100)
+char = pygame.transform.scale(char, char_size)
 
 bg_size = (1920,1080)
 bg = pygame.transform.scale(bg,bg_size)
@@ -35,14 +37,32 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # player = Player()
 
+class projectile(object):
+    def __init__(self,x,y,radius,color,facing):
+        self.x = x
+        self.y = y
+        self.radius = radius
+        self.color = color
+        self.facing = facing
+        self.vel = 8 * facing
+
+    def draw(self,win):
+        pygame.draw.circle(win, self.color, (self.x,self.y), self.radius)
+
+
+
+
 
 def redrawGameWindow():
     screen.blit(bg, (0,0))
     screen.blit(char, (x,y))
+    for ball in balls:
+        ball.draw(screen)
 
     pygame.display.update()
     
 
+balls = []
 
 running = True 
 
@@ -60,6 +80,12 @@ while running:
         
         elif event.type == QUIT:
             running = False
+        
+        for ball in balls:
+            if ball.x < 500 and ball.x > 0:
+                ball.x += ball.vel
+            else:
+                balls.pop(balls.index(ball))
 
     pressed_keys = pygame.key.get_pressed()
 
@@ -73,6 +99,9 @@ while running:
         left = False
         right = True 
 
+    if pressed_keys[pygame.K_SPACE]:
+        if len(balls) < 5:
+            balls.append(pr)
 
 
 
