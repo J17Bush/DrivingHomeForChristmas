@@ -7,7 +7,13 @@ width = 400
 height = 600 
 vel = 150
 
+
+lives = 1
+
+
 white = (255, 255, 255)
+
+
 black = (0, 0, 0)
 transparent = (0, 0, 0, 0)
 
@@ -187,13 +193,27 @@ while running:
     else:
         print("Balls full")
 
+
     if ball.rect.x >= 1570:
+
+
+    if ball.rect.x >= 1770:
+
+    if ball.rect.x <= 1570:
+
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.x >= 0:
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.y >= 0:
         ball.velocity[0] = -ball.velocity[0]
+
     if ball.rect.y >= 1080:
+
+
+    if ball.rect.y > 1080:
+
+    if ball.rect.y >= 1080:
+
         ball.velocity[1] = -ball.velocity[1]
 
     if pressed_keys[pygame.K_LEFT] and x > vel:
@@ -206,7 +226,11 @@ while running:
         left = False
         right = True 
 
+
     print(balls)
+
+
+    redrawGameWindow()
 
 
     redrawGameWindow()
