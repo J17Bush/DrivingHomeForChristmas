@@ -22,7 +22,6 @@ transparent = (0, 0, 0, 0)
 music = pygame.mixer.music.load("music/MerryChristmas.mp3")
 pygame.mixer.music.play(-1)
 
-blox = pygame.image.load('/static/Pressie2.png')
 
 blue = pygame.image.load('static/CarBlockBlue.png')
 green = pygame.image.load('static/CarBlockGreen.png')
@@ -45,6 +44,7 @@ class Brick(pygame.sprite.Sprite):
         self.image.set_colorkey(black)
 
         self.rect = self.image.get_rect()
+
 
 class Ball(pygame.sprite.Sprite):
 
@@ -74,7 +74,7 @@ class Ball(pygame.sprite.Sprite):
     
    
 
-
+blox = pygame.image.load('static/Pressie2.png')
 bg = pygame.image.load('static/RoundBackground.png')
 char = pygame.image.load('static/PlayerCar.png')
 
@@ -183,20 +183,14 @@ while running:
 
 
     if ball.rect.x >= 1770:
-
-    if ball.rect.x <= 1570:
-
-        ball.velocity[0] = -ball.velocity[0]
+      ball.velocity[0] = -ball.velocity[0]
     if ball.rect.x >= 175:
         ball.velocity[0] = -ball.velocity[0]
     if ball.rect.y > 0:
         ball.velocity[0] = -ball.velocity[0]
-
-    if ball.rect.y > 1080:
-
     if ball.rect.y >= 1080:
-
         ball.velocity[1] = -ball.velocity[1]
+
         lives -= 1
         if lives == 0:
             font = pygame.font.Font(None, 74)
