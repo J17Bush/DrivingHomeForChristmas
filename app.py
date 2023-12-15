@@ -1,5 +1,8 @@
 import pygame
 from random import randint
+from pygame import mixer_music, mixer
+
+pygame.mixer.init()
 
 x = 900
 y = 900
@@ -15,6 +18,11 @@ white = (255, 255, 255)
 
 black = (0, 0, 0)
 transparent = (0, 0, 0, 0)
+
+music = pygame.mixer.music.load("music/MerryChristmas.mp3")
+pygame.mixer.music.play(-1)
+
+blox = pygame.image.load('/static/Pressie2.png')
 
 blue = pygame.image.load('static/CarBlockBlue.png')
 green = pygame.image.load('static/CarBlockGreen.png')
@@ -66,8 +74,10 @@ class Ball(pygame.sprite.Sprite):
     
    
 
+
 bg = pygame.image.load('static/RoundBackground.png')
 char = pygame.image.load('static/PlayerCar.png')
+
 
 char_size = (150, 100)
 char = pygame.transform.scale(char, char_size)
@@ -96,6 +106,7 @@ pygame.display.set_caption("placeholder")
 def redrawGameWindow():
     screen.blit(bg, (0,0))
     screen.blit(char, (x,y))
+    screen.blit(blox, (1770, 1080))
     all_sprites_list.draw(screen)
 
     pygame.display.update()
@@ -147,14 +158,13 @@ for i in range(14):
         all_sprites_list.add(brick)
         all_bricks.add(brick)
 
+
 screen.blit(bg, (0,0))
 
 while running:
 
     FPS = 60
-
     pygame.time.delay(100)
-
     screen.blit(char, (0,0))
     for event in pygame.event.get():
         if event.type == KEYDOWN:
